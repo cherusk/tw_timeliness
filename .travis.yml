@@ -1,0 +1,17 @@
+---
+language: python
+dist: xenial 
+python:
+    - "3.6"
+    - "3.7"
+install:
+    - make
+    - pip install nose2
+include:
+    - stage: Functional Testing
+      script: 
+        - make test
+stages:
+    - name: Functional Testing
+      if: branch = devel 
+
