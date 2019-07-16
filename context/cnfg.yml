@@ -1,17 +1,23 @@
 ---
 notifier:
-    template_file: ./msg_tmplt.j2
-    core: 'mailer'
-    core_vars:
-        mail_server:
-            host: localhost
-            port: 25
-            from_addr: any@where.io
-            to_addrs:
-                - some@where.io
-threshold:
-    weeks: 1
-    days: 1
-    hours: 1
-interval: 60
+   type: 'email'
+   from_addr: any@where.io
+   to_addrs:
+       - some@where.io
+   content:
+       subject: 'TW Timeliness Report'
+       msg_template_file: ./msg_tmplt.j2
+       html: false
+   mail_server:
+       host: localhost
+       port: 25
+       tls: false
+       username: some
+       password: pw
+reporting:
+    threshold:
+        weeks: 1
+        days: 1
+        hours: 1
+    interval: 60
    

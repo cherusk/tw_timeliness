@@ -1,5 +1,6 @@
 
-from smtplib import SMTP
+from notifiers import get_notifier
+from notifiers.utils import  helpers
 import logging
 import jinja2
 import os
@@ -8,10 +9,12 @@ import os
 logger = logging.getLogger(__name__)
 
 
-class Mailer:
+class Notifier:
+    tasks = list()
 
     def __init__(self, cnfg):
         self.cnfg = cnfg
+        self.core = get_notifier(cnfg['notifier']['type'])
         self._stage_msg_tmplt(cnfg)
 
     def _stage_msg_tmplt(self, cnfg):
@@ -24,27 +27,19 @@ class Mailer:
 
         self.template = templateEnv.get_template(template_file)
 
-    def dispatch(self, tasks):
-        logger.debug("Dispatching with CNFG:")
-        logger.debug("{0}".format(self.cnfg))
-        msg = self.template.render(tasks=tasks)
-        logger.debug("MSG \n {0}".format(msg))
-        with SMTP(host=self.cnfg['notifier']['mail_server']['host'],
-                  port=self.cnfg['notifier']['mail_server']['port']) as smtp:
-            smtp.sendmail(self.cnfg['notifier']['from_addr'],
-                          self.cnfg['notifier']['to_addrs'],
-                          msg)
-
-
-class Notifier:
-    tasks = list()
-
-    def __init__(self, cnfg):
-        if cnfg['notifier']['core'] == 'mailer':
-            self.core = Mailer(cnfg)
-
     def gather(self, task):
         self.tasks.append(task)
 
     def release(self):
-        self.core.dispatch(self.tasks)
+        logger.debug("Dispatching with CNFG:")
+        logger.debug("{0}".format(self.cnfg))
+        msg = self.template.render(tasks=self.tasks)
+        logger.debug("MSG \n {0}".format(msg))
+
+        notifier_cnfg = self.cnfg['notifier']
+        params = helpers.merge_dicts(notifier_cnfg['mail_server'],
+                                     notifier_cnfg['content'])
+        self.core.notify(from_=notifier_cnfg['from_addr'],
+                         to=notifier_cnfg['to_addrs'],
+                         message=msg,
+                         **params)
