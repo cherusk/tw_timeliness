@@ -7,13 +7,34 @@ import datetime as dt
 logger = logging.getLogger(__name__)
 
 NOW = dt.datetime.now()
-THRESH = CNFG ##
+THRESH = None
+
+TASK_DATE_FMT = '%Y%m%dT%H%M%SZ'
 
 
-def is_exceeding(task):
-    due_time = task['due']
-    by = (NOW + THRESH) - due_time
+def is_becoming_due(task):
+    due_time = dt.strptime(task['due'], TASK_DATE_FMT)
+    by = (NOW + dt.timedelta(**THRESH)) - due_time
     if by < 0:
         return True
 
     return False
+
+
+def is_becoming_startable(task):
+    start_time = dt.strptime(task['scheduled'], TASK_DATE_FMT)
+    by = (NOW + dt.timedelta(**THRESH)) - start_time
+    if by < 0:
+        return True
+
+    return False
+
+
+def categorize(task):
+    categories = []
+    for category, mechanism in [('dueing', is_becoming_due),
+                                ('starting', is_becoming_startable)]:
+        if mechanism(task):
+            categories.append[category]
+
+    return categories

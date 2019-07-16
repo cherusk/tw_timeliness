@@ -1,6 +1,7 @@
 
 from notifiers import get_notifier
 from notifiers.utils import  helpers
+import collections
 import logging
 import jinja2
 import os
@@ -10,7 +11,7 @@ logger = logging.getLogger(__name__)
 
 
 class Notifier:
-    tasks = list()
+    tasks = collections.defaultdict(list)
 
     def __init__(self, cnfg):
         self.cnfg = cnfg
@@ -27,8 +28,9 @@ class Notifier:
 
         self.template = templateEnv.get_template(template_file)
 
-    def gather(self, task):
-        self.tasks.append(task)
+    def gather(self, task, categories):
+        for category in categories:
+            self.tasks[category].append(task)
 
     def release(self):
         logger.debug("Dispatching with CNFG:")

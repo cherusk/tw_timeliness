@@ -56,10 +56,11 @@ def form_args():
 def run(cnfg):
     notifier = Notifier(cnfg)
     for task in Collector(cnfg):
-        logger.debug("discerned Tasks>>")
-        if discerner.is_exceeding(task):
-            logger.debug("--> {0}".format(str(task)))
-            notifier.gather(task)
+        logger.debug("categorized Tasks>>")
+        categories = discerner.categorize(task)
+        logger.debug("--> {0} - Categories {1}".format(str(task),
+                                                       categories))
+        notifier.gather(task, categories)
 
     notifier.release()
 
@@ -67,6 +68,7 @@ if __name__ == '__main__':
     args = form_args()
     cnfg = Cnfg(args.cnfg).provide()
     INTERVAL = cnfg['interval']
+    discerner.THRESH = cnfg['reporting']['threshold']
     run(cnfg)
     with daemon.DaemonContext() as context:
         TL.start(block=True)
