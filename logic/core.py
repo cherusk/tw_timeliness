@@ -51,11 +51,17 @@ def form_args():
 
     return parser.parse_args()
 
+ARGS = form_args()
+CNFG = Cnfg(ARGS.cnfg).provide()
 
-@TL.job(interval=timedelta(seconds=INTERVAL))
-def run(cnfg):
-    notifier = Notifier(cnfg)
-    for task in Collector(cnfg):
+
+@TL.job(interval=timedelta(seconds=CNFG['interval']))
+def run():
+    global CNFG
+
+    discerner.THRESH = CNFG['reporting']['threshold']
+    notifier = Notifier(CNFG)
+    for task in Collector(CNFG):
         logger.debug("categorized Tasks>>")
         categories = discerner.categorize(task)
         logger.debug("--> {0} - Categories {1}".format(str(task),
@@ -65,10 +71,5 @@ def run(cnfg):
     notifier.release()
 
 if __name__ == '__main__':
-    args = form_args()
-    cnfg = Cnfg(args.cnfg).provide()
-    INTERVAL = cnfg['interval']
-    discerner.THRESH = cnfg['reporting']['threshold']
-    run(cnfg)
     with daemon.DaemonContext() as context:
         TL.start(block=True)
