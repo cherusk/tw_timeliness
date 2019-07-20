@@ -3,8 +3,8 @@ import daemon
 from timeloop import Timeloop
 from datetime import timedelta
 from collector import Collector
-from . import discerner
-from . import Notifier
+import discerner
+from communication import Notifier
 import argparse
 import os
 import logging

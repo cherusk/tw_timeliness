@@ -2,7 +2,7 @@
 import collections
 import itertools as it
 import logging
-import TaskWarrior
+from taskw import TaskWarrior
 
 
 logger = logging.getLogger(__name__)
