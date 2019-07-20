@@ -1,5 +1,4 @@
 
-import time
 import logging
 import datetime as dt
 
@@ -13,7 +12,8 @@ TASK_DATE_FMT = '%Y%m%dT%H%M%SZ'
 
 
 def is_becoming_due(task):
-    due_time = dt.strptime(task['due'], TASK_DATE_FMT)
+    due_time = dt.datetime.strptime(task['due'],
+                                    TASK_DATE_FMT)
     by = (NOW + dt.timedelta(**THRESH)) - due_time
     if by < 0:
         return True
@@ -22,7 +22,8 @@ def is_becoming_due(task):
 
 
 def is_becoming_startable(task):
-    start_time = dt.strptime(task['scheduled'], TASK_DATE_FMT)
+    start_time = dt.datetime.strptime(task['scheduled'],
+                                      TASK_DATE_FMT)
     by = (NOW + dt.timedelta(**THRESH)) - start_time
     if by < 0:
         return True
