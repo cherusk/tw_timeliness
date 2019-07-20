@@ -4,11 +4,9 @@ import os
 import glob
 import datetime as dt
 from taskw import TaskWarrior
-from logic import Collector
+
 from logic import core
 from logic import discerner
-
-import logging
 
 import smtpd.DebuggingServer as TestMailServer
 
