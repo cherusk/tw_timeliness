@@ -8,32 +8,30 @@ from logic import Collector
 from logic import core
 from logic import discerner
 
+import logging
+
 import smtpd.DebuggingServer as TestMailServer
 
 
 class timeTesting(unittest.TestCase):
 
-    def load_tw_cnfg(self):
-        return os.path.join(self.local_dir, "./cnfg/.taskrc")
-
-    def stage_tw(self, cnfg_file):
+    def stage_tw(self):
         overrides = {'data': {'location':  os.path.join(self.local_dir,
-                     'task')}}
-        tw = TaskWarrior(config_filename=cnfg_file,
+                                                        'task')}}
+        rc_file = os.path.join(self.local_dir,
+                               "./cnfg/taskrc")
+        tw = TaskWarrior(config_filename=rc_file,
                          config_overrides=overrides)
         self.tw = tw
 
     def setUp(self):
         self.local_dir = os.path.dirname(__file__)
-        cnfg_file = self.load_tw_cnfg()
-        self.stage_tw(cnfg_file)
+
+        self.stage_tw()
 
         self.form_test_items()
 
-        self.tasks = Collector(cnfg_file)
-
-        local_dir = os.path.dirname(__file__)
-        cnfg_file = os.path.join(local_dir,
+        cnfg_file = os.path.join(self.local_dir,
                                  "./cnfg.yml")
         core.ARGS.cnfg = cnfg_file
         self.mail_server = TestMailServer(("localhost", 25),
