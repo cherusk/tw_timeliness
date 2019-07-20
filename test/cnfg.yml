@@ -1,0 +1,23 @@
+---
+notifier:
+   type: 'email'
+   from_addr: some@localhost
+   to_addrs:
+       -  any@localhost
+   content:
+       subject: 'TEST TW Timeliness Report'
+       msg_template_file: ./msg_tmplt.j2
+       html: false
+   mail_server:
+       host: localhost
+       port: 25
+       tls: false
+       username: some
+       password: pw
+reporting:
+    threshold:
+        weeks: 1
+        days: 1
+        hours: 1
+    interval: 60
+   
