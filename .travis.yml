@@ -7,10 +7,11 @@ python:
 install:
     - make
     - pip install nose2
-include:
-    - stage: Functional Testing
-      script: 
-        - make test
+jobs:
+    include:
+        - stage: Functional Testing
+          script: 
+            - make test
 stages:
     - name: Functional Testing
       if: branch = devel 
