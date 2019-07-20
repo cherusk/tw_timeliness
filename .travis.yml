@@ -5,8 +5,12 @@ python:
     - "3.6"
     - "3.7"
 install:
-    - make
-    - pip install nose2 taskw
+    - pip3 install nose2 taskw daemon timeloop
+addons:
+    apt:
+      packages:
+        - make 
+        - task
 jobs:
     include:
         - stage: Functional Testing
