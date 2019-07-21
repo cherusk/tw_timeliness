@@ -16,10 +16,10 @@ class Collector(collections.Iterable):
         tw = TaskWarrior(config_filename=cnfg['core']['taskrc'])
         all_tasks = tw.load_tasks()
 
-        selected_tasks = it.chain([all_tasks[category]
-                                   for category in
-                                   ['pending', 'waiting']
-                                   if category in all_tasks.keys()])
+        selected_tasks = it.chain(*[all_tasks[category]
+                                    for category in
+                                    ['pending', 'waiting']
+                                    if category in all_tasks.keys()])
         for t in selected_tasks:
             logger.debug("loaded Task>> {0}:".format(str(t)))
             self._tasks.append(t)
