@@ -1,4 +1,6 @@
 
+import logging
+import sys
 import daemon
 from timeloop import Timeloop
 from datetime import timedelta
@@ -8,8 +10,6 @@ import logging
 from communication import Notifier
 import argparse
 import os
-import sys
-import logging
 import yaml
 
 
@@ -57,9 +57,11 @@ def start(args, oneshot=False):
     global CNFG
     CNFG = Cnfg(file=args.cnfg).provide()
 
-    logging.basicConfig(level=logging.DEBUG, stream=sys.stdout)
+    from imp import reload
+    reload(logging)
 
-    logger.debug('starting')
+    logging.basicConfig(level=logging.DEBUG, stream=sys.stdout)
+    logging.debug('starting')
 
     if not oneshot:
         with daemon.DaemonContext() as context:

@@ -1,13 +1,13 @@
 
+from logic import core
+from logic import discerner
+
 import unittest
 import collections
 import os
 import glob
 import datetime as dt
 from taskw import TaskWarrior
-
-from logic import core
-from logic import discerner
 
 from smtpd import DebuggingServer as TestMailServer
 
