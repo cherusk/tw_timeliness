@@ -19,7 +19,9 @@ class Notifier:
         self._stage_msg_tmplt(cnfg)
 
     def _stage_msg_tmplt(self, cnfg):
-        template_path = cnfg['notifier']['template']
+        template_path = (cnfg['notifier']
+                             ['content']
+                             ['msg_template_file'])
         template_dir = os.path.dirname(template_path)
         template_file = os.path.basename(template_path)
 
