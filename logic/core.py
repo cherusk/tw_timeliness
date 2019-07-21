@@ -22,14 +22,14 @@ INTERVAL = 60
 class Cnfg:
 
     def __init__(self, file=None):
-        pass
+        self.file = file
 
     def _load(self, _file, logic=None):
         with open(_file, "r") as fp:
             return logic(fp)
 
-    def provide(self, param_file=None):
-        run_cnfg = self._load(param_file,
+    def provide(self):
+        run_cnfg = self._load(self.file,
                               logic=yaml.load)
         return run_cnfg
 
@@ -55,7 +55,7 @@ def run():
 def start(args, oneshot=False):
     global CNFG
 
-    CNFG = Cnfg(args.cnfg).provide()
+    CNFG = Cnfg(file=args.cnfg).provide()
 
     if not oneshot:
         with daemon.DaemonContext() as context:
