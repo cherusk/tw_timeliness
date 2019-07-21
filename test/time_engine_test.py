@@ -9,7 +9,7 @@ from taskw import TaskWarrior
 from logic import core
 from logic import discerner
 
-import smtpd.DebuggingServer as TestMailServer
+from smtpd import DebuggingServer as TestMailServer
 
 
 class timeTesting(unittest.TestCase):
