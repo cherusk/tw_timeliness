@@ -1,5 +1,6 @@
 
 import unittest
+import collections
 import os
 import glob
 import datetime as dt
@@ -31,7 +32,10 @@ class timeTesting(unittest.TestCase):
 
         cnfg_file = os.path.join(self.local_dir,
                                  "./cnfg.yml")
-        core.ARGS.cnfg = cnfg_file
+        args = collections.namedtuple('args', ['cnfg'])
+        args.cnfg = cnfg_file
+        core.start(args, oneshot=True)
+
         self.mail_server = TestMailServer(("localhost", 25),
                                           ("localhost", 25))
 

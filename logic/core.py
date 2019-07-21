@@ -3,10 +3,11 @@ import daemon
 from timeloop import Timeloop
 from datetime import timedelta
 from collector import Collector
-import discerner
+import  discerner
 from communication import Notifier
 import argparse
 import os
+import sys
 import logging
 import yaml
 
@@ -32,27 +33,7 @@ class Cnfg:
                               logic=yaml.load)
         return run_cnfg
 
-
-def form_args():
-    parser = argparse.ArgumentParser(prog='tw_timeliness',
-                                     description="""Assisiting logic for bulk
-                                                    revising timeliness
-                                                    related aspects of held
-                                                    tasks.""")
-    parser.add_argument('--debug',
-                        help="""show logic trace""",
-                        action='store_true')
-
-    local_dir = os.path.dirname(__file__)
-    dflts_file = os.path.join(local_dir, "./cnfg.yml")
-    parser.add_argument('-c', '--cnfg',
-                        help="""config file to load""",
-                        default=dflts_file)
-
-    return parser.parse_args()
-
-ARGS = form_args()
-CNFG = Cnfg(ARGS.cnfg).provide()
+CNFG = dict(interval=INTERVAL)
 
 
 @TL.job(interval=timedelta(seconds=CNFG['interval']))
@@ -70,6 +51,12 @@ def run():
 
     notifier.release()
 
-if __name__ == '__main__':
-    with daemon.DaemonContext() as context:
-        TL.start(block=True)
+
+def start(args, oneshot=False):
+    global CNFG
+
+    CNFG = Cnfg(args.cnfg).provide()
+
+    if not oneshot:
+        with daemon.DaemonContext() as context:
+            TL.start(block=True)
