@@ -20,4 +20,5 @@ reporting:
         days: 1
         hours: 1
     interval: 60
-   
+core:
+    taskrc: /home/travis/build/cherusk/tw_timeliness/test/cnfg/taskrc

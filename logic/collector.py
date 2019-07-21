@@ -13,7 +13,7 @@ class Collector(collections.Iterable):
     def __init__(self, cnfg):
         self._tasks = list()
 
-        tw = TaskWarrior(config_filename=cnfg)
+        tw = TaskWarrior(config_filename=cnfg['core']['taskrc'])
         all_tasks = tw.load_tasks()
 
         selected_tasks = it.chain([all_tasks[category]
