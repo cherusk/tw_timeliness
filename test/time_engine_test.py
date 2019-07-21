@@ -46,17 +46,17 @@ class timeTesting(unittest.TestCase):
 
     def form_test_items(self):
         self.tw.task_add("TaskA", project="ProjA",
-                         scheduled="20190630T120000Z1",
+                         scheduled="20190630T120000Z",
                          due="20190701T120000Z1")
         self.tw.task_add("TaskB", project="ProjA",
-                         scheduled="20190701T120000Z1",
+                         scheduled="20190701T120000Z",
                          due="20190702T120000Z1")
         self.tw.task_add("TaskC", project="ProjB",
-                         scheduled="20190710T120000Z1",
+                         scheduled="20190710T120000Z",
                          due="20190715T120000Z1")
 
     def test_none(self):
-        discerner.NOW = dt.datetime.strptime("20190620T120000Z1",
+        discerner.NOW = dt.datetime.strptime("20190620T120000Z",
                                              discerner.TASK_DATE_FMT)
         core.run()
 
