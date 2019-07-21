@@ -41,6 +41,7 @@ class Notifier:
         logger.debug("MSG \n {0}".format(msg))
 
         notifier_cnfg = self.cnfg['notifier']
+        del notifier_cnfg['content']['msg_template_file']
         params = helpers.merge_dicts(notifier_cnfg['mail_server'],
                                      notifier_cnfg['content'])
         self.core.notify(from_=notifier_cnfg['from_addr'],
