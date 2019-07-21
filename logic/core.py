@@ -4,6 +4,7 @@ from timeloop import Timeloop
 from datetime import timedelta
 from collector import Collector
 import  discerner
+import logging
 from communication import Notifier
 import argparse
 import os
@@ -54,8 +55,11 @@ def run():
 
 def start(args, oneshot=False):
     global CNFG
-
     CNFG = Cnfg(file=args.cnfg).provide()
+
+    logging.basicConfig(level=logging.DEBUG, stream=sys.stdout)
+
+    logger.debug('starting')
 
     if not oneshot:
         with daemon.DaemonContext() as context:
