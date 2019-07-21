@@ -6,7 +6,7 @@ notifier:
        -  any@localhost
    content:
        subject: 'TEST TW Timeliness Report'
-       msg_template_file: ./msg_tmplt.j2
+       msg_template_file: /home/travis/build/cherusk/tw_timeliness/test/msg_tmplt.j2
        html: false
    mail_server:
        host: localhost
