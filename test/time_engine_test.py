@@ -7,9 +7,12 @@ import collections
 import os
 import glob
 import datetime as dt
+import threading
 from taskw import TaskWarrior
 
-from smtpd import DebuggingServer as TestMailServer
+import logging
+import os
+import yaml
 
 
 class timeTesting(unittest.TestCase):
@@ -24,6 +27,17 @@ class timeTesting(unittest.TestCase):
         self.tw = tw
 
     def setUp(self):
+
+        def alter_cnfg(_file):
+            smtp_credential = os.environ['SMTP_CREDENTIAL']
+            cnfg = core.Cnfg(file=_file).provide()
+            (cnfg['notifier']
+                 ['mail_server']
+                 ['password']) = smtp_credential
+
+            with open(_file, "w") as fp:
+                fp.write(yaml.dump(cnfg))
+
         self.local_dir = os.path.dirname(__file__)
 
         self.stage_tw()
@@ -32,12 +46,12 @@ class timeTesting(unittest.TestCase):
 
         cnfg_file = os.path.join(self.local_dir,
                                  "./cnfg.yml")
+
+        alter_cnfg(cnfg_file)
+
         args = collections.namedtuple('args', ['cnfg'])
         args.cnfg = cnfg_file
         core.start(args, oneshot=True)
-
-        self.mail_server = TestMailServer(("localhost", 2500),
-                                          ("localhost", 2500))
 
     def tearDown(self):
         data_reside = os.path.join(self.local_dir, "task", "*.data")

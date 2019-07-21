@@ -1,19 +1,19 @@
 ---
 notifier:
    type: 'email'
-   from_addr: some@localhost
+   from_addr: some@where.io
    to_addrs:
-       -  any@localhost
+       -  cherusk-testing@mail.de
    content:
        subject: 'TEST TW Timeliness Report'
        msg_template_file: /home/travis/build/cherusk/tw_timeliness/test/msg_tmplt.j2
        html: false
    mail_server:
-       host: localhost
-       port: 2500
-       tls: false
-       username: some
-       password: pw
+       host: "imap.mail.de" 
+       port: 993
+       tls: true 
+       username: cherusk-testing@mail.de
+       password: From_Travis 
 reporting:
     threshold:
         weeks: 1

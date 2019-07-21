@@ -1,22 +1,25 @@
----
 language: python
-dist: xenial 
+sudo: required
+dist: xenial
 python:
-    - "3.6"
-    - "3.7"
+- '3.6'
+- '3.7'
 install:
-    - pip3 install nose2 taskw daemon timeloop notifiers jinja2 PyYAML
+- pip3 install nose2 taskw daemon timeloop jinja2 PyYAML notifiers
 addons:
-    apt:
-      packages:
-        - make 
-        - task
+  apt:
+    packages:
+    - make
+    - task
+    - iproute
+env:
+  global:
+    secure: fXDN1o9MnlaV6FZ5gmCXUBvKcZL/W/zRea7vueDs4+SwKEIiC+iXSd9WBk1kxrZ5pOLcfLUkysGj/Qs0E7MxR8fMui6BSOTRBs7HX1xnvFZ7CI+Ii8UCeOfoX5yrbBffrTk5fE+gFzrkSv9bZCqIWZ/4OiSmAdb0XG8AGgOV27xFEV7BuBMZUbgMKs/juUG5uZocDGdhMN0QQhXOb+9AMPDpW8feV652+lOZuoRAFYm922ed/gyYdeovjNEaa3SOTKhE7UKn2/fyFqb616VNPAaf6n3GUxuiPNXzbQzR8XmuFQD9EcO0rSa9o2/1ntulP19BWzCOIx3uZQajPoKvkbR/PvDeXFIRAB3+i3oG+i+uyikmnaP/tlV7JyjZXHESAYSsXfNzqL/Rx7QRVc/d8UDBNClH/Kh2xepyd9xKJ/U84CH2CJym9jfaf96lxhMMoLLtvA5klrn6T3VW/hp2mBk+y4gOLOvzPQfrITK7hp7/yEpcPp0eu4dPVK2+ozL6JRiGb/iYNO8B+oGOKy9wUc8JvNAp9vtq5cBXNmiR1QCL8xJ5ZP007PX5tdrYt2sidAGVXFnVXyTiez1rJHDtLLaMz0WPbiRq7+BTH8ENmudPbvt7vj9Qet2TiZ+hg2PDAyewrTm1eikLNLBS7R0A6UN65qxP7RTUvzu0cYJ8VO8=
 jobs:
-    include:
-        - stage: Functional Testing
-          script: 
-            - make test
+  include:
+  - stage: Functional Testing
+    script:
+    - make test
 stages:
-    - name: Functional Testing
-      if: branch = devel 
-
+- name: Functional Testing
+  if: branch = devel
