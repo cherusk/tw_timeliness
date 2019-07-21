@@ -10,7 +10,7 @@ notifier:
        html: false
    mail_server:
        host: localhost
-       port: 25
+       port: 2500
        tls: false
        username: some
        password: pw

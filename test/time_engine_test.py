@@ -36,8 +36,8 @@ class timeTesting(unittest.TestCase):
         args.cnfg = cnfg_file
         core.start(args, oneshot=True)
 
-        self.mail_server = TestMailServer(("localhost", 25),
-                                          ("localhost", 25))
+        self.mail_server = TestMailServer(("localhost", 2500),
+                                          ("localhost", 2500))
 
     def tearDown(self):
         data_reside = os.path.join(self.local_dir, "task", "*.data")
