@@ -6,14 +6,15 @@ from timeloop import Timeloop
 from datetime import timedelta
 from collector import Collector
 import  discerner
-import logging
+from introspection import load_logger
 from communication import Notifier
 import argparse
 import os
 import yaml
 
 
-logger = logging.getLogger(__name__)
+
+logger = load_logger()
 
 
 TL = Timeloop()
@@ -60,8 +61,7 @@ def start(args, oneshot=False):
     from imp import reload
     reload(logging)
 
-    logging.basicConfig(level=logging.DEBUG, stream=sys.stdout)
-    logging.debug('starting')
+    logger.debug('starting')
 
     if not oneshot:
         with daemon.DaemonContext() as context:

@@ -2,12 +2,12 @@
 from notifiers import get_notifier
 from notifiers.utils import  helpers
 import collections
-import logging
 import jinja2
 import os
+from introspection import load_logger
 
 
-logger = logging.getLogger(__name__)
+logger = load_logger()
 
 
 class Notifier:

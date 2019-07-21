@@ -1,11 +1,11 @@
 
 import collections
 import itertools as it
-import logging
 from taskw import TaskWarrior
+from introspection import load_logger
 
 
-logger = logging.getLogger(__name__)
+logger = load_logger()
 
 
 class Collector(collections.Iterable):

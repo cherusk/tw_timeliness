@@ -1,9 +1,9 @@
 
-import logging
+import core
 import datetime as dt
+from introspection import load_logger
 
-
-logger = logging.getLogger(__name__)
+logger = load_logger()
 
 NOW = dt.datetime.now()
 THRESH = None
